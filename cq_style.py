@@ -2,6 +2,7 @@ from dataclasses import dataclass, asdict
 from cadquery import Assembly, Workplane, exporters
 
 #Import me into your CadQuery projects by adding the lines below
+#from dataclasses import dataclass
 #import sys
 #sys.path.append("../cq_style")
 #from cq_style import StylishPart
@@ -9,6 +10,7 @@ from cadquery import Assembly, Workplane, exporters
 
 @dataclass
 class StylishPart:
+    part_name = None
     _stored_part = None
 
     #This class method lets you create instances of child classes from the base class!
@@ -26,7 +28,7 @@ class StylishPart:
     def calc_vars(self):
         return None
 
-    def make(self) -> Workplane:
+    def make(self):
         #Replace with your own function!
         part = (
             Workplane("XY")
@@ -35,21 +37,31 @@ class StylishPart:
         return part
 
     #Either retrives the cached version of a part, or regenerates it
-    def part(self, regen: bool = False) -> Workplane:
+    def part(self, regen: bool = False):
         if self._stored_part == None or regen:
             self._stored_part = self.make()
         return self._stored_part
 
     def display(self, _show_object, regen: bool = False):
-        _show_object(self.part(regen))
+        _show_object(self.part(regen), name=self.part_name)
         return self
     
     def display_split(self, _show_object, regen: bool = False, axis="XZ"):
         p = self.part(regen)
         if isinstance(p, Assembly):
-            #Allows for splitting of Assembly
-            p = Workplane("XY").add(p.toCompound())
-        _show_object(p.copyWorkplane(Workplane(axis)).split(0,1))
+            #Allows for splitting of Assembly while maintaining colors
+            cross_section = Assembly(None, name=p.name)
+            for name, subpart in p.traverse():
+                location = p.findLocation(name)
+                for shape in subpart.shapes:
+                    cross_section.add(
+                        Workplane("XY").add(shape.located(location)).copyWorkplane(Workplane(axis)).split(0,1),
+                        color=subpart.color,
+                        name=name,
+                    )
+            _show_object(cross_section, name=self.part_name)
+        else:
+            _show_object(p.copyWorkplane(Workplane(axis)).split(0,1), name=self.part_name)
         return self
 
     def export(self, filepath: str, regen: bool = False):
