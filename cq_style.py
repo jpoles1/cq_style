@@ -1,12 +1,31 @@
 from dataclasses import dataclass, asdict
 from cadquery import Assembly, Workplane, exporters
 
-#Import me into your CadQuery projects by adding the lines below
-#from dataclasses import dataclass
-#import sys
-#sys.path.append("../cq_style")
-#from cq_style import StylishPart
+#Import me into your CadQuery projects by adding the lines below:
+'''
+from dataclasses import dataclass
+import sys
+sys.path.append("../cq_style")
+from cq_style import StylishPart
+'''
 
+#Define a new part with:
+'''
+@dataclass
+class NewPart(StylishPart):
+    part_param: float = 1234
+    def make(self):
+        part = ...
+        return part
+'''
+
+#At end of new StylishPart class definition files you can include the following to render the given file when it is opened in CQ-Editor
+#Below you see the show_object() function passed to the display or display_split functions. This is for CQ-Editor and can be replaced with show(), debug(), etc.
+'''
+if "show_object" in locals():
+    StylishPart().display(show_object)
+    StylishPart().display_split(show_object)
+'''
 
 @dataclass
 class StylishPart:
@@ -67,12 +86,3 @@ class StylishPart:
     def export(self, filepath: str, regen: bool = False):
         exporters.export(self.part(regen), filepath)
         return self
-
-
-#At end of new StylishPart class definition files you can include the following to render the given file when it is opened in CQ-Editor
-#Below you see the show_object() function passed to the display or display_split functions. This is for CQ-Editor and can be replaced with show(), debug(), etc.
-'''
-if "show_object" in locals():
-    stylish_part.display(show_object)
-    stylish_part.display_split(show_object)
-'''
