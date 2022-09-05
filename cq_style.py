@@ -84,5 +84,27 @@ class StylishPart:
         return self
 
     def export(self, filepath: str, regen: bool = False):
-        exporters.export(self.part(regen), filepath)
+        p = self.part(regen)
+        if isinstance(p, Assembly):
+            p.save(filepath)
+        else:
+            exporters.export(p, filepath)
+        return self
+
+    def export_split(self, filepath: str, regen: bool = False, axis="XZ"):
+        p = self.part(regen)
+        if isinstance(p, Assembly):
+            #Allows for splitting of Assembly while maintaining colors
+            cross_section = Assembly(None, name=p.name)
+            for name, subpart in p.traverse():
+                location = p.findLocation(name)
+                for shape in subpart.shapes:
+                    cross_section.add(
+                        Workplane("XY").add(shape.located(location)).copyWorkplane(Workplane(axis)).split(0,1),
+                        color=subpart.color,
+                        name=name,
+                    )
+            cross_section.save(filepath)
+        else:
+            exporters.export(p.copyWorkplane(Workplane(axis)).split(0,1), filepath)
         return self
