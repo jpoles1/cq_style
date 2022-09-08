@@ -9,7 +9,7 @@ from cq_style import StylishPart
 class NewPart(StylishPart):
     part_param: float = 1234
     def make(self):
-        part = cq.Workplane("XY").sphere(1)
+        part = Workplane("XY").sphere(1)
         return part
 
 if "show_object" in locals():
