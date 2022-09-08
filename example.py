@@ -11,3 +11,7 @@ class NewPart(StylishPart):
     def make(self):
         part = cq.Workplane("XY").sphere(1)
         return part
+
+if "show_object" in locals():
+    NewPart().display(show_object)
+    NewPart().display_split(show_object)
