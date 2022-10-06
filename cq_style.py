@@ -61,10 +61,14 @@ class StylishPart:
             self._stored_part = self.make()
         return self._stored_part
 
+    #Display the object using _show_object()
+    #Eg. if using CQ Editor: [show_object, debug, ...]
+    #Eg. if using Jupyter CadQuery: [show, ...]
     def display(self, _show_object, regen: bool = False):
         _show_object(self.part(regen), name=self.part_name)
         return self
     
+    #Splits object in half along the provided axis (eg: ["XZ", "YZ", "XY"]) or Plane and then displays
     def display_split(self, _show_object, regen: bool = False, axis="XZ"):
         p = self.part(regen)
         if isinstance(p, Assembly):
@@ -83,6 +87,7 @@ class StylishPart:
             _show_object(p.copyWorkplane(Workplane(axis)).split(0,1), name=self.part_name)
         return self
 
+    #Exports model (shape or assembly) to file
     def export(self, filepath: str, regen: bool = False):
         p = self.part(regen)
         if isinstance(p, Assembly):
@@ -91,6 +96,7 @@ class StylishPart:
             exporters.export(p, filepath)
         return self
 
+    #Splits model (shape or assembly) in half along the provided axis (eg: ["XZ", "YZ", "XY"]) or Plane and then exports
     def export_split(self, filepath: str, regen: bool = False, axis="XZ"):
         p = self.part(regen)
         if isinstance(p, Assembly):
