@@ -2,7 +2,9 @@ from cadquery import *
 from dataclasses import dataclass
 
 import sys
-sys.path.append("../cq_style") #This should be set to the path of the `cq_style` directory absolute/relative to your project's working directory
+#This should be set to the path of the `cq_style` directory absolute/relative to your project's working directory
+cq_style_path = "../cq_style"
+sys.path.append(cq_style_path)
 from cq_style import StylishPart
 
 @dataclass
@@ -44,6 +46,8 @@ class NewPart(StylishPart):
 
 if "show_object" in locals():
     p1 = NewPart().display(show_object)
+    #Customize parameters of the part on creation of a new part instance
+    NewPart(part_H = p1.part_H * 1.5).display_split(lambda p, name: show_object(p.translate(Vector(p1.part_L * 1.25, 0, 0))), axis="XZ")
     # Get creative and you can find many ways to display different aspects of your part
     # The display_split() function will cut parts (including assemblies) in half along an axis
     # to show features that might otherwise be difficult to visualize
