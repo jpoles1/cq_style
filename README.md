@@ -44,7 +44,18 @@ p = PartName()
 
 7) If using version control, we recommend creating a new git repo for every project rather than using a repo for your entire project directory.
 
-### It's as easy as that, you're now up and running creating your own flexible and nicely organized CadQuery design environment!
+### It's as easy as that, you're now up and running creating your own flexible and nicely organized CadQuery design environment! Your final file structure should appear as follows:
+
+```
+~/
+├─ CadQueryDesigns/
+│  ├─ cqs_project1/
+│  │  ├─ part.py
+│  ├─ cqs_project2/
+│  │  ├─ otherpart.py
+│  ├─ cq_style/
+│  │  ├─ Files from: git clone https://github.com/jpoles1/cq_style.git
+```
 
 ## How to Design a CadQuery Part - *The Stylish Way*
 
@@ -109,7 +120,7 @@ Note: You can regenerate the part rather than using the cached version by settin
 
 ### StylishPart.display(self, _show_object, regen: bool = False)
 
-Display the part, can be used as part of the function chain (Ex: `StylishPart().export().display(show_object)`) rather than having to wrap with the display function (Ex: `show_object(StylishPart().part()) `).
+Display the part, can be used as part of the function chain (Ex: `StylishPart().export().display(show_object)`) rather than having to wrap with the display function (Ex: `show_object(StylishPart().part())`).
 
 Note: _show_object can be set to any function that renders a CadQuery part (like `debug()` in CQ Editor or `show()` in Jupyter CadQuery).
 
