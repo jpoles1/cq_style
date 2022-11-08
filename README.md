@@ -113,13 +113,18 @@ Display the part, can be used as part of the function chain (Ex: `StylishPart().
 
 Note: _show_object can be set to any function that renders a CadQuery part (like `debug()` in CQ Editor or `show()` in Jupyter CadQuery).
 
+---
+
 ### StylishPart.display_split(self, _show_object, regen: bool = False, axis = "XZ", offset: float = 0)
 
 As above, displays the part after splitting it using the provided axis (Ex: "XZ", "YZ", "XY"). You can offset this cutting axis from (0, 0, 0) by setting the offset param. This works with both Workplane and Assembly objects.
 
+---
 
 ### StylishPart.export(self, filepath: str, regen: bool = False)
 Exports your part to the specified filepath, identifies export format based on [extension](https://cadquery.readthedocs.io/en/latest/importexport.html) in the filepath (Ex: part.stl, part.step)
+
+---
 
 ### StylishPart.export_split(self, filepath: str, regen: bool = False)
 As above, exports the part after splitting it using the provided axis (Ex: "XZ", "YZ", "XY"). You can offset this cutting axis from (0, 0, 0) by setting the offset param. This works with both Workplane and Assembly objects.
