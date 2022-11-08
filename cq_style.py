@@ -87,8 +87,9 @@ class StylishPart:
         _show_object(self.part(regen), name=self.part_name)
         return self
     
-    # Splits object in half along the provided axis (eg: ["XZ", "YZ", "XY"]) or Plane and then displays
-    def display_split(self, _show_object, regen: bool = False, axis="XZ", offset=0):
+    # Splits object in half along the provided axis (eg: ["XZ", "YZ", "XY"]) or Plane and then displays.
+    # Use offset to offset the cutting axis from (0,0,0)
+    def display_split(self, _show_object, regen: bool = False, axis = "XZ", offset: float=0):
         p = self.part(regen)
         if isinstance(p, Assembly):
             #Allows for splitting of Assembly while maintaining colors
@@ -116,7 +117,7 @@ class StylishPart:
         return self
 
     # Splits model (shape or assembly) in half along the provided axis (eg: ["XZ", "YZ", "XY"]) or Plane and then exports
-    def export_split(self, filepath: str, regen: bool = False, axis="XZ"):
+    def export_split(self, filepath: str, regen: bool = False, axis="XZ", offset: float=0):
         p = self.part(regen)
         if isinstance(p, Assembly):
             #Allows for splitting of Assembly while maintaining colors
@@ -125,7 +126,7 @@ class StylishPart:
                 location = p.findLocation(name)
                 for shape in subpart.shapes:
                     cross_section.add(
-                        Workplane("XY").add(shape.located(location)).copyWorkplane(Workplane(axis)).split(0,1),
+                        Workplane("XY").add(shape.located(location)).copyWorkplane(Workplane(axis).workplane(offset=offset)).split(0,1),
                         color=subpart.color,
                         name=name,
                     )
