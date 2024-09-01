@@ -8,25 +8,25 @@ Parametric CAD is a wonderful tool for designing your next project. One of its g
 
 1) Create a root CadQuery projects folder. We recommend you keep all of your CadQuery projects in one place so you can easily import parts from other projects using relative paths.
 2) Load `cq_style` into your CadQuery projects folder using the following:
-```
+```bash
 mkdir CadQueryDesigns
 cd CadQueryDesigns
 git clone https://github.com/jpoles1/cq_style.git
 ```
 3) Each project should get its own uniquely named folder; we recommend prefacing all project folder names with `cqs` (Ex: cqs_project/part.py). This indicates to other users that this project is `cq_style` enabled. A project folder can contain as many CadQuery python files as you'd like; we encourage separating each component out into its own file where reasonable, and using a clear naming schema for each file to describe the part it contains.
-```
+```bash
 mkdir cqs_project
 cd cqs_project
 touch part.py
 ```
 6) In order to import `cq_style` from the parent folder you'll using the following:
-```
+```python
 import sys
 sys.path.append("../cq_style")
 from cq_style import StylishPart
 ```
 6) In order to import a part from another project in the parent folder you'll using the following:
-```
+```python
 import sys
 sys.path.append("../cqs_otherproject")
 
@@ -44,7 +44,9 @@ p = PartName()
 
 7) If using version control, we recommend creating a new git repo for every project rather than using a repo for your entire project directory.
 
-### It's as easy as that, you're now up and running creating your own flexible and nicely organized CadQuery design environment! Your final file structure should appear as follows:
+### It's as easy as that!
+
+You're now up and running creating your own flexible and nicely organized CadQuery design environment! Your final file structure should appear as follows:
 
 ```
 ~/
@@ -77,7 +79,7 @@ If you've followed the above instructions to setup your project directory and do
 ### StylishPart.calc_vars(self):
 An "optional" user-defined function which calculates class/self variables which are dependent on the values of params set during instatiation of the class.
 Ex: you want to define a dimension as a fraction of a customizable dimension which is input by a user when instantiating the part
-```
+```python
 def calc_vars(self):
     #Example: L is equal to 2x W
     #self.L = 2 * self.W
@@ -94,7 +96,7 @@ Note: Runs after calc_vars() on default init so can be used to check calculated 
 
 Ex: You want to make sure that one dimension is always smaller than the other for a customizable part
 
-```
+```python
     
     def check_config(self):
         #Example: L should always be greater than H
